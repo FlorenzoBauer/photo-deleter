@@ -1,20 +1,60 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomePage from './Screens/HomePage';
+import MainPage from './Screens/MainPage';
+import { Header } from './Components/Header';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function TabNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar backgroundColor='#161616' barStyle='light-content' />
+      <Tab.Navigator
+        initialRouteName='Home'
+        screenOptions={{
+          tabBarStyle: { backgroundColor: '#292929' },
+          tabBarActiveTintColor: '#B427F1',
+          tabBarInactiveTintColor: '#F6F7F8',
+        }}
+      >
+        <Tab.Screen
+          name='Home'
+          component={HomePage}
+          options={{
+            tabBarLabel: 'Home',
+            headerShown: false,
+          }}
+        />
+        {/* <Tab.Screen
+          name='Swipe'
+          component={MainPage}
+          options={{
+            tabBarLabel: 'Swipe',
+            headerShown: false,
+          }}
+        /> */}
+      </Tab.Navigator>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle='dark' />
+      <Stack.Navigator
+        initialRouteName='Home'
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name='HomePage' component={TabNavigator} />
+        <Stack.Screen name='MainPage' component={MainPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
